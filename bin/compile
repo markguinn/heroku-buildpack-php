@@ -41,7 +41,8 @@ set -eu
 shopt -s dotglob
 
 STACK=${STACK:-cedar} # Anvil has none
-BUILD_DIR=$1/public
+BUILD_DIR=$1
+BUILD_DIR2=$1/public
 CACHE_DIR=$2/php
 mkdir -p "$CACHE_DIR"
 ENV_DIR=${3:-} # Anvil has none
@@ -69,7 +70,7 @@ fi
 S3_URL="https://lang-php.s3.amazonaws.com/dist-${STACK}-${S3_URL:-"master"}"
 RTVS_URL="https://php-runtime-version-selector.herokuapp.com"
 
-cd $BUILD_DIR
+cd $BUILD_DIR2
 
 if [[ -n ${COMPOSER:-} ]]; then
     status "Using '$COMPOSER' (from "'$COMPOSER env var) for installation.'
@@ -93,7 +94,7 @@ Please change its contents to at least '{}' so it is valid JSON."
     echo "{}" > $COMPOSER
 fi
 
-mkdir -p .heroku/php
+mkdir -p $BUILD_DIR/.heroku/php
 
 export COMPOSER_HOME=$CACHE_DIR/.composer
 mkdir -p $COMPOSER_HOME
@@ -414,7 +415,7 @@ fi
 ## SilverStripe-specific stuff
 echo "Ramping up SilverStripe..."
 pwd
-cd $BUILD_DIR
+cd $BUILD_DIR2
 mkdir silverstripe-cache
 framework/sake dev/build
 
