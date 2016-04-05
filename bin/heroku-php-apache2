@@ -93,7 +93,7 @@ you retain the appropriate include mechanisms (see default configs for details).
 " >&2
 }
 
-#cd public
+cd public
 
 # we need this in configs
 export HEROKU_APP_DIR=$(pwd)
