@@ -95,7 +95,7 @@ Please change its contents to at least '{}' so it is valid JSON."
 fi
 
 mkdir -p $BUILD_DIR/.heroku/php
-ln -s $BUILD_DIR/vendor $BUILD_DIR2/vendor
+ln -s $BUILD_DIR2/vendor $BUILD_DIR/vendor
 
 export COMPOSER_HOME=$CACHE_DIR/.composer
 mkdir -p $COMPOSER_HOME
