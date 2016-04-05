@@ -360,6 +360,10 @@ composer_vendordir=$(composer config vendor-dir 2> /dev/null | tail -n 1) # tail
 composer_bindir=$(composer config bin-dir 2> /dev/null | tail -n 1) # tail, as composer echos outdated version warnings to STDOUT
 # figure out the package dir name to write to and copy to it
 hbpdir="$composer_vendordir/$(cat $BP_DIR/composer.json | python -c 'import sys, json; print json.load(sys.stdin)["name"]')"
+echo "hbp=$hbpdir"
+pwd
+ls
+ls $BUILD_DIR2
 mkdir -p "$BUILD_DIR2/$hbpdir"
 cp -r "$BP_DIR"/* "$BUILD_DIR2/$hbpdir/"
 # make bin dir, just in case
