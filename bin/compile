@@ -410,3 +410,13 @@ if [[ ! -f "Procfile" ]]; then
     echo "web: $bindir/heroku-$engine-apache2" > Procfile
     notice_inline "No Procfile, using 'web: $bindir/heroku-$engine-apache2'."
 fi
+
+## SilverStripe-specific stuff
+echo "Ramping up SilverStripe..."
+pwd
+cd $BUILD_DIR
+mkdir silverstripe-cache
+framework/sake dev/build
+
+# this will go away soon
+framework/sake dev/tasks/PopulateTask flush=1
