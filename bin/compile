@@ -414,10 +414,9 @@ fi
 
 ## SilverStripe-specific stuff
 echo "Ramping up SilverStripe..."
-pwd
-#cd $BUILD_DIR2
-#mkdir silverstripe-cache
-#framework/sake dev/build
-#
-## this will go away soon
-#framework/sake dev/tasks/PopulateTask flush=1
+cd $BUILD_DIR2
+mkdir silverstripe-cache
+framework/sake dev/build
+
+# this will go away soon
+framework/sake dev/tasks/PopulateTask flush=1
