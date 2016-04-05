@@ -419,5 +419,3 @@ cd $BUILD_DIR2
 mkdir silverstripe-cache
 framework/sake dev/build
 
-# this will go away soon
-framework/sake dev/tasks/PopulateTask flush=1
