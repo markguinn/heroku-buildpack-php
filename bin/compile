@@ -95,6 +95,7 @@ Please change its contents to at least '{}' so it is valid JSON."
 fi
 
 mkdir -p $BUILD_DIR/.heroku/php
+ln -s $BUILD_DIR/vendor $BUILD_DIR2/vendor
 
 export COMPOSER_HOME=$CACHE_DIR/.composer
 mkdir -p $COMPOSER_HOME
@@ -359,16 +360,16 @@ composer_vendordir=$(composer config vendor-dir 2> /dev/null | tail -n 1) # tail
 composer_bindir=$(composer config bin-dir 2> /dev/null | tail -n 1) # tail, as composer echos outdated version warnings to STDOUT
 # figure out the package dir name to write to and copy to it
 hbpdir="$composer_vendordir/$(cat $BP_DIR/composer.json | python -c 'import sys, json; print json.load(sys.stdin)["name"]')"
-mkdir -p "$BUILD_DIR/$hbpdir"
-cp -r "$BP_DIR"/* "$BUILD_DIR/$hbpdir/"
+mkdir -p "$BUILD_DIR2/$hbpdir"
+cp -r "$BP_DIR"/* "$BUILD_DIR2/$hbpdir/"
 # make bin dir, just in case
-mkdir -p "$BUILD_DIR/$composer_bindir"
+mkdir -p "$BUILD_DIR2/$composer_bindir"
 # figure out shortest relative path from vendor/heroku/heroku-buildpack-php to vendor/bin (or whatever the bin dir is)
 relbin=$(python -c "import os.path; print os.path.relpath('$hbpdir', '$composer_bindir')")
 # collect bin names from composer.json
 relbins=$(cat $BP_DIR/composer.json | python -c 'from __future__ import print_function; import sys, json; { print(sys.argv[1]+"/"+bin) for bin in json.load(sys.stdin)["bin"] }' $relbin)
 # link to bins
-cd $BUILD_DIR/$composer_bindir
+cd $BUILD_DIR2/$composer_bindir
 ln -s $relbins .
 cd $BUILD_DIR
 
