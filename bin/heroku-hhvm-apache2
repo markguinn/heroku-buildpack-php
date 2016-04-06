@@ -89,6 +89,8 @@ the appropriate include mechanisms (see default configs for details).
 " >&2
 }
 
+cd public
+
 # we need this in configs
 export HEROKU_APP_DIR=$(pwd)
 export DOCUMENT_ROOT="$HEROKU_APP_DIR"
@@ -263,7 +265,7 @@ if [[ -z ${WEB_CONCURRENCY:-} ]]; then
     read WEB_CONCURRENCY php_memory_limit <<<$(hhvm "${php_configs[@]}" $(composer config vendor-dir 2> /dev/null | tail -n 1)/heroku/heroku-buildpack-php/bin/util/autotune.php "$ram") # tail, as composer echos outdated version warnings to STDOUT
     [[ $WEB_CONCURRENCY -lt 1 ]] && WEB_CONCURRENCY=1
     export WEB_CONCURRENCY
-    
+
     echo "${WEB_CONCURRENCY} threads at ${php_memory_limit}B memory limit." >&2
 else
     echo "Using WEB_CONCURRENCY=${WEB_CONCURRENCY} threads." >&2

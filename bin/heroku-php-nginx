@@ -62,7 +62,7 @@ Options:
                           directives (globals are read from the system's default
                           Nginx configuration files).
                           [default: \$COMPOSER_VENDOR_DIR/heroku/heroku-buildpack-php/conf/nginx/heroku.conf.php]
-  -F <php-fpm.inc.conf>   The path to the configuration file to include at the  
+  -F <php-fpm.inc.conf>   The path to the configuration file to include at the
                           end of php-fpm.conf (see option -f below), in the
                           '[www]' pool section. Recommended approach when
                           customizing PHP-FPM's configuration in most cases,
@@ -93,6 +93,8 @@ If you would like to use the -C and -c or -F and -f options together, make sure
 you retain the appropriate include mechanisms (see default configs for details).
 " >&2
 }
+
+cd public
 
 # we need this in configs
 export HEROKU_APP_DIR=$(pwd)
@@ -283,7 +285,7 @@ if [[ -z ${WEB_CONCURRENCY:-} ]]; then
     read WEB_CONCURRENCY php_memory_limit <<<$(php ${php_config:+-c "$php_config"} $(composer config vendor-dir 2> /dev/null | tail -n 1)/heroku/heroku-buildpack-php/bin/util/autotune.php -y "$fpm_config" -t "$DOCUMENT_ROOT" "$ram") # tail, as composer echos outdated version warnings to STDOUT
     [[ $WEB_CONCURRENCY -lt 1 ]] && WEB_CONCURRENCY=1
     export WEB_CONCURRENCY
-    
+
     echo "${WEB_CONCURRENCY} processes at ${php_memory_limit}B memory limit." >&2
 else
     echo "Using WEB_CONCURRENCY=${WEB_CONCURRENCY} processes." >&2
